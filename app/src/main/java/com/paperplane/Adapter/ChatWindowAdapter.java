@@ -28,6 +28,9 @@ public class ChatWindowAdapter extends RecyclerView.Adapter<ChatWindowAdapter.Vi
         this.dataList = dataList;
     }
 
+    /**
+     * 加载chat_list_item布局，以之实例化ViewHolder并返回
+     */
     @Override
     public ChatWindowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_list_item, parent, false);
@@ -45,6 +48,11 @@ public class ChatWindowAdapter extends RecyclerView.Adapter<ChatWindowAdapter.Vi
         return holder;
     }
 
+    /**
+     * 对RecyclerView的子项进行赋值，在每个子项被滚动到屏幕内时执行
+     * @param viewHolder
+     * @param i 数据项的index
+     */
     @Override
     public void onBindViewHolder(ChatWindowAdapter.ViewHolder viewHolder, int i) {
         viewHolder.setData(dataList.get(i));
@@ -63,6 +71,11 @@ public class ChatWindowAdapter extends RecyclerView.Adapter<ChatWindowAdapter.Vi
         TextView name;
         TextView text;
 
+        /**
+         *
+         * @param view RecyclerView 子项的最外层布局
+         *             chat_list_item.xml
+         */
         public ViewHolder(View view){
             super(view);
             chatView = view;

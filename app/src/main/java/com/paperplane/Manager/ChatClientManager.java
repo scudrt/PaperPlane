@@ -85,7 +85,7 @@ public class ChatClientManager {
 
     public PrivateChat getChatByUserId(String id){
         for(PrivateChat chat: chatList){
-            if(chat.getTargetUser().getUserID() == (id));
+            if(chat.getTargetUser().getUserID().equals(id))
                 return chat;
         }
         return null;

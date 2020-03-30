@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class RegistActivity extends AppCompatActivity implements View.OnClickLis
     private Button button,SMSBtn;//注册按钮、验证码按钮
     private ImageView returnImage;//返回按钮
     private TextView enterText;//登陆按钮
+    private String TAG = "RegistActivity";
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,32 +114,38 @@ public class RegistActivity extends AppCompatActivity implements View.OnClickLis
         pd.show();
 
         new Thread(new Runnable() {
-                @Override
-                public void run () {
-                    JSONObject json = new JSONObject();
-                    //send sign up message
-                    json.put("userID", username);
-                    json.put("password", pwd0);
-                    final JSONObject res = UserAccountClientManager.getInstance().signup(json);
-                    pd.dismiss();
-                    Looper.prepare();
-                    new Handler().post(new Runnable(){
-                        public void run(){
-                            solveRegisterResult(res);
-                        }
-                    });
-                    Looper.loop();
-                }
+            @Override
+            public void run () {
+                JSONObject json = new JSONObject();
+                //send sign up message
+                json.put("userID", username);
+                json.put("password", pwd0);
+                final JSONObject res = UserAccountClientManager.getInstance().signup(json);
+                pd.dismiss();
+                Looper.prepare();
+                new Handler().post(new Runnable(){
+                    public void run(){
+                        solveRegisterResult(res);
+                    }
+                });
+                Looper.loop();
             }
+        }
         ).start();
     }
 
     private void solveRegisterResult(JSONObject res){
-        if (res.getBoolean("result")){
-            Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
-            returnEnter();
-        }else{
-            Toast.makeText(this, "server: " + res.getString("response"), Toast.LENGTH_SHORT).show();
+        try {
+            if (res.getBoolean("result")) {
+                Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+                returnEnter();
+            } else {
+                Log.d(TAG,res.getString("response") );
+                Toast.makeText(this, "server: " + res.getString("response"), Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (NullPointerException e){
+            Log.e(TAG, "solveRegisterResult get NullPointer");
         }
     }
 

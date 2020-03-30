@@ -85,7 +85,7 @@ public class ChatListWindow extends AppCompatActivity {
                 NetworkListener listener = new NetworkListener() {
                     @Override
                     public void onReceived(String content) {
-                        if(content == null){
+                        if(content == null || content.equals("{}")){
                             Toast.makeText(ChatListWindow.this,"未找到用户", Toast.LENGTH_SHORT).show();
                         }
                         else {
