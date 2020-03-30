@@ -106,8 +106,9 @@ public class ChatListWindow extends AppCompatActivity {
         chatClientManager.setChatListListener(new ChatListener() {
             @Override
             public void OnRefresh() {
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemInserted(chatClientManager.getChatSize() - 1);
+                adapter.notifyItemInserted(0); // 新会话置顶
+                adapter.notifyItemRangeChanged(0, chatClientManager.getChatSize()); // 刷新列表项索引，保证索引正确性
+                recyclerView.scrollToPosition(0); // 将列表滚动到顶端(可选操作)
             }
         });
     }

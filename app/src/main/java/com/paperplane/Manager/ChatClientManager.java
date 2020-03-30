@@ -52,7 +52,7 @@ public class ChatClientManager {
     public void startChat(UserAccount targetUser){
         PrivateChat privateChat = new PrivateChat(targetUser);
         if(targetUser != null && getChatByUserId(targetUser.getUserID()) == null) {
-            chatList.add(privateChat);
+            chatList.add(0, privateChat); // 新会话置顶
         }
         if(chatWindowListener!=null) {
             chatWindowListener.OnRefresh();
